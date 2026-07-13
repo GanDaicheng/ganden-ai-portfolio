@@ -30,7 +30,6 @@ import {
   type Work,
 } from "./data/portfolio";
 import DotGrid from "./components/DotGrid";
-import VariableProximity from "./components/VariableProximity";
 import BorderGlow from "./components/BorderGlow";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -578,10 +577,6 @@ function SocialCard({ link }: { link: SocialLink }) {
 function VariableText({
   label,
   className,
-  fromFontVariationSettings,
-  toFontVariationSettings,
-  radius,
-  falloff,
 }: {
   label: string;
   className: string;
@@ -590,19 +585,9 @@ function VariableText({
   radius: number;
   falloff: "linear" | "exponential" | "gaussian";
 }) {
-  const containerRef = useRef<HTMLElement | null>(null);
-
   return (
-    <span className="variable-text-shell" ref={containerRef}>
-      <VariableProximity
-        label={label}
-        className={className}
-        fromFontVariationSettings={fromFontVariationSettings}
-        toFontVariationSettings={toFontVariationSettings}
-        containerRef={containerRef}
-        radius={radius}
-        falloff={falloff}
-      />
+    <span className="variable-text-shell">
+      <span className={className}>{label}</span>
     </span>
   );
 }

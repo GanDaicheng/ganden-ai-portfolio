@@ -138,18 +138,7 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>(
           letter.style.fontWeight = String(Math.round(520 + strength * 310));
           letter.style.color =
             strength > 0.03 ? "rgb(" + (235 - strength * 8) + ", " + (240 + strength * 10) + ", 255)" : "";
-          letter.style.textShadow =
-            strength > 0.03
-              ? "0 0 " +
-                (8 + strength * 18) +
-                "px rgba(34, 211, 238, " +
-                (0.08 + strength * 0.32) +
-                "), 0 0 " +
-                (18 + strength * 32) +
-                "px rgba(139, 92, 246, " +
-                (0.08 + strength * 0.2) +
-                ")"
-              : "";
+          letter.style.textShadow = "";
           letter.style.transform =
             "translate3d(0, " + -strength * 3.5 + "px, 0) scaleY(" + (1 + strength * 0.045) + ")";
         });

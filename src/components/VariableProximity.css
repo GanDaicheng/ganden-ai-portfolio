@@ -34,7 +34,6 @@
   transform-origin: 50% 72%;
   transition:
     color 180ms ease,
-    text-shadow 220ms ease,
     font-weight 140ms ease;
   will-change: transform, font-variation-settings;
 }
