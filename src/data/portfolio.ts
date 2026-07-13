@@ -9,6 +9,14 @@ export type Profile = {
   avatarAlt: string;
 };
 
+export type HeroShowcasePanel = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  signal: string;
+  tags: string[];
+};
+
 export type StatWorkPreview = {
   type: string;
   title: string;
@@ -59,6 +67,30 @@ export const profile: Profile = {
   avatarSrc: `${import.meta.env.BASE_URL}avatar.png`,
   avatarAlt: "GanDen个人头像占位",
 };
+
+export const heroShowcasePanels: HeroShowcasePanel[] = [
+  {
+    eyebrow: "AI Agent Lab",
+    title: "智能体实验室",
+    description: "预留 Agent 工作流、工具调用和自动化执行方案展示位。",
+    signal: "Planning / Tools / Evaluation",
+    tags: ["Agent", "Workflow", "Automation"],
+  },
+  {
+    eyebrow: "Vibe Coding Works",
+    title: "创意编码现场",
+    description: "预留 React、动效、视觉系统和网页实验案例展示位。",
+    signal: "React / GSAP / Prototype",
+    tags: ["React", "Motion", "Design"],
+  },
+  {
+    eyebrow: "AIGC Pipeline",
+    title: "内容生产管线",
+    description: "预留 AI 短视频、选题、脚本、分镜和多平台分发流程。",
+    signal: "Prompt / Storyboard / Publish",
+    tags: ["AIGC", "Video", "Creator"],
+  },
+];
 
 export const stats: Stat[] = [
   {

@@ -19,6 +19,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   capabilities,
+  heroShowcasePanels,
   journey,
   profile,
   socialLinks,
@@ -44,6 +45,7 @@ const navItems = [
 
 const workIcons = [Bot, Code2, TerminalSquare, Clapperboard];
 const capabilityIcons = [Code2, Orbit, Bot, WandSparkles, Play];
+const heroShowcaseIcons = [Bot, Code2, WandSparkles];
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 function App() {
@@ -58,51 +60,76 @@ function App() {
 
     const context = gsap.context(() => {
       gsap.set(".opening-curtain", { autoAlpha: 1 });
+      gsap.set(".opening-curtain__grid", { autoAlpha: 0, scale: 1.08 });
+      gsap.set(".opening-curtain__beam", {
+        autoAlpha: 0,
+        xPercent: -50,
+        scaleY: 0.42,
+        transformOrigin: "50% 0%",
+      });
+      gsap.set(".opening-curtain__mark", { autoAlpha: 0, scale: 0.7 });
+      gsap.set(".opening-curtain__line", {
+        autoAlpha: 0,
+        xPercent: -50,
+        scaleX: 0,
+        transformOrigin: "50% 50%",
+      });
       gsap.set(".hero-title-line", {
-        yPercent: 116,
-        scaleY: 0.64,
-        skewY: 4,
+        yPercent: 122,
+        scaleY: 0.72,
+        skewY: 2,
         transformOrigin: "0% 100%",
       });
-      gsap.set(".hero-kicker, .hero-copy, .hero-tags span, .hero-actions a", { autoAlpha: 0, y: 34 });
-      gsap.set(".hero-console", {
+      gsap.set(".hero-kicker, .hero-copy, .hero-tags span, .hero-actions a", { autoAlpha: 0, y: 28 });
+      gsap.set(".hero-stage-card-main", {
         autoAlpha: 0,
-        y: 60,
-        scale: 0.94,
-        rotationY: -8,
+        y: 72,
+        scale: 0.92,
         clipPath: "inset(0 0 100% 0)",
         transformOrigin: "50% 100%",
       });
+      gsap.set(".hero-stage-card-side", { autoAlpha: 0, y: 54, scale: 0.88, rotate: 0 });
+      gsap.set(".hero-stage-connector", { autoAlpha: 0, scaleX: 0, transformOrigin: "50% 50%" });
       gsap.set(".hero-background img", { autoAlpha: 0.18, x: 110, scale: 1.16, transformOrigin: "80% 50%" });
       gsap.set(".hero-dot-grid", { autoAlpha: 0, scale: 1.05 });
+      gsap.set(".hero-blueprint", { autoAlpha: 0, scale: 1.04 });
+      gsap.set(".hero-spotlight", { autoAlpha: 0, xPercent: -50, scaleY: 0.72, transformOrigin: "50% 0%" });
+      gsap.set(".hero-crosshair", { autoAlpha: 0, scale: 0.6 });
       gsap.set(".site-nav", { autoAlpha: 0, y: -30 });
 
-      const opening = gsap.timeline({ defaults: { ease: "power4.out" } });
+      const opening = gsap.timeline({ defaults: { ease: "expo.out" } });
 
       opening
-        .fromTo(
-          ".opening-curtain__line",
-          { scaleX: 0, transformOrigin: "0% 50%" },
-          { scaleX: 1, duration: 0.72, ease: "expo.inOut", stagger: 0.08 },
-          0.05,
-        )
-        .to(".opening-curtain__line", { xPercent: 118, duration: 0.74, ease: "expo.inOut", stagger: 0.06 }, 0.62)
-        .to(".opening-curtain", { clipPath: "inset(0 0 100% 0)", duration: 1.12, ease: "expo.inOut" }, 0.66)
-        .to(".opening-curtain", { autoAlpha: 0, duration: 0.1 }, 1.78)
-        .to(".site-nav", { autoAlpha: 1, y: 0, duration: 0.92 }, 0.95)
-        .to(".hero-background img", { autoAlpha: 0.88, x: 0, scale: 1, duration: 1.75, ease: "power3.out" }, 0.82)
-        .to(".hero-dot-grid", { autoAlpha: 1, scale: 1, duration: 1.35, ease: "sine.out" }, 1.0)
-        .to(".hero-title-line", { yPercent: 0, scaleY: 1, skewY: 0, duration: 1.34, stagger: 0.15 }, 1.0)
-        .to(".hero-kicker", { autoAlpha: 1, y: 0, duration: 0.86, ease: "power3.out" }, 1.12)
-        .to(".hero-copy", { autoAlpha: 1, y: 0, duration: 0.94, ease: "power3.out" }, 1.42)
-        .to(".hero-tags span", { autoAlpha: 1, y: 0, duration: 0.72, stagger: 0.07, ease: "power3.out" }, 1.62)
-        .to(".hero-actions a", { autoAlpha: 1, y: 0, duration: 0.78, stagger: 0.1, ease: "power3.out" }, 1.78)
+        .to(".opening-curtain__grid", { autoAlpha: 1, scale: 1, duration: 0.9, ease: "sine.out" }, 0)
+        .to(".opening-curtain__beam", { autoAlpha: 1, scaleY: 1, duration: 1.05, ease: "power3.out" }, 0.12)
+        .to(".opening-curtain__mark", { autoAlpha: 1, scale: 1, duration: 0.74, stagger: 0.08, ease: "power3.out" }, 0.2)
+        .to(".opening-curtain__line", { autoAlpha: 1, scaleX: 1, duration: 0.9, stagger: 0.1, ease: "expo.inOut" }, 0.28)
+        .to(".opening-curtain__line", { autoAlpha: 0.18, scaleX: 0.28, duration: 0.78, stagger: 0.08, ease: "expo.inOut" }, 1.02)
+        .to(".opening-curtain__beam", { autoAlpha: 0.42, scaleY: 1.22, duration: 0.86, ease: "sine.out" }, 1.12)
+        .to(".opening-curtain", { autoAlpha: 0, duration: 0.92, ease: "sine.inOut" }, 1.34)
+        .to(".site-nav", { autoAlpha: 1, y: 0, duration: 1.0 }, 1.04)
+        .to(".hero-background img", { autoAlpha: 0.28, x: 0, scale: 1, duration: 1.8, ease: "power3.out" }, 0.86)
+        .to(".hero-blueprint", { autoAlpha: 1, scale: 1, duration: 1.7, ease: "sine.out" }, 0.9)
+        .to(".hero-spotlight", { autoAlpha: 1, scaleY: 1, duration: 1.65, ease: "power3.out" }, 1.0)
+        .to(".hero-dot-grid", { autoAlpha: 0.56, scale: 1, duration: 1.45, ease: "sine.out" }, 1.1)
+        .to(".hero-crosshair", { autoAlpha: 1, scale: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" }, 1.18)
+        .to(".hero-kicker", { autoAlpha: 1, y: 0, duration: 0.82, ease: "power3.out" }, 1.3)
+        .to(".hero-title-line", { yPercent: 0, scaleY: 1, skewY: 0, duration: 1.28, stagger: 0.14 }, 1.42)
+        .to(".hero-copy", { autoAlpha: 1, y: 0, duration: 0.88, ease: "power3.out" }, 1.9)
+        .to(".hero-tags span", { autoAlpha: 1, y: 0, duration: 0.68, stagger: 0.06, ease: "power3.out" }, 2.08)
+        .to(".hero-actions a", { autoAlpha: 1, y: 0, duration: 0.74, stagger: 0.08, ease: "power3.out" }, 2.24)
         .to(
-          ".hero-console",
-          { autoAlpha: 1, y: 0, scale: 1, rotationY: 0, clipPath: "inset(0 0 0% 0)", duration: 1.24 },
-          1.36,
+          ".hero-stage-card-main",
+          { autoAlpha: 1, y: 0, scale: 1, clipPath: "inset(0 0 0% 0)", duration: 1.18 },
+          2.02,
         )
-        .fromTo(".avatar-placeholder img", { scale: 1.12 }, { scale: 1, duration: 1.4, ease: "power3.out" }, 1.65);
+        .to(".hero-stage-connector", { autoAlpha: 1, scaleX: 1, duration: 0.95, ease: "power3.out" }, 2.32)
+        .to(
+          ".hero-stage-card-side",
+          { autoAlpha: 1, y: 0, scale: 1, rotate: (index) => (index === 0 ? -3 : 3), duration: 1.0, stagger: 0.1 },
+          2.48,
+        )
+        .fromTo(".avatar-placeholder img", { scale: 1.1 }, { scale: 1, duration: 1.35, ease: "power3.out" }, 2.46);
 
       gsap.to(".signal-orbit", {
         rotate: 360,
@@ -189,6 +216,52 @@ function App() {
     return () => context.revert();
   }, []);
 
+  useEffect(() => {
+    const scrollToHash = (hash: string, delay = 0) => {
+      if (!hash || hash === "#") {
+        return;
+      }
+
+      window.setTimeout(() => {
+        const target = document.querySelector(hash);
+
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, delay);
+    };
+
+    const handleAnchorClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const anchor = target?.closest<HTMLAnchorElement>('a[href^="#"]');
+
+      if (!anchor) {
+        return;
+      }
+
+      const hash = anchor.getAttribute("href");
+
+      if (!hash || hash === "#") {
+        return;
+      }
+
+      event.preventDefault();
+      history.pushState(null, "", hash);
+      scrollToHash(hash);
+    };
+
+    const handleHashChange = () => scrollToHash(window.location.hash);
+
+    document.addEventListener("click", handleAnchorClick);
+    window.addEventListener("hashchange", handleHashChange);
+    scrollToHash(window.location.hash, 2400);
+
+    return () => {
+      document.removeEventListener("click", handleAnchorClick);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   return (
     <div className="site-shell" ref={rootRef}>
       <OpeningCurtain />
@@ -225,6 +298,10 @@ function App() {
 function OpeningCurtain() {
   return (
     <div className="opening-curtain" aria-hidden="true">
+      <span className="opening-curtain__grid" />
+      <span className="opening-curtain__beam" />
+      <span className="opening-curtain__mark opening-curtain__mark-a" />
+      <span className="opening-curtain__mark opening-curtain__mark-b" />
       <span className="opening-curtain__line" />
       <span className="opening-curtain__line" />
       <span className="opening-curtain__line" />
@@ -248,6 +325,9 @@ function AmbientField() {
 }
 
 function Landing() {
+  const sidePanels = heroShowcasePanels.slice(0, 2);
+  const mainPanel = heroShowcasePanels[2];
+
   return (
     <section className="section hero-section" id="landing">
       <div className="hero-background" aria-hidden="true">
@@ -255,6 +335,10 @@ function Landing() {
           <source srcSet={assetPath("/images/hero-mobile.png")} media="(max-width: 767px)" />
           <img src={assetPath("/images/hero-desktop.png")} alt="" />
         </picture>
+        <div className="hero-blueprint" />
+        <div className="hero-spotlight" />
+        <div className="hero-crosshair hero-crosshair-one" />
+        <div className="hero-crosshair hero-crosshair-two" />
         <DotGrid
           className="hero-dot-grid"
           dotSize={2}
@@ -271,7 +355,7 @@ function Landing() {
       </div>
       <div className="section-inner hero-layout">
         <div className="hero-copy-block">
-          <p className="hero-kicker">AI Creator / Builder Log</p>
+          <p className="hero-kicker">Introducing / Builder Log</p>
           <h1 className="hero-title">
             <span className="hero-title-line">
               <VariableText
@@ -312,38 +396,55 @@ function Landing() {
           </div>
         </div>
 
-        <BorderGlow
-          className="hero-console hero-border-glow"
-          aria-label="个人定位控制台"
-          backgroundColor="rgba(17, 17, 26, 0.58)"
-          borderRadius={8}
-          glowColor="189 86 65"
-          glowRadius={58}
-          glowIntensity={0.82}
-          coneSpread={22}
-          fillOpacity={0.22}
-          animated
-          colors={["#8B5CF6", "#6366F1", "#22D3EE"]}
-        >
-          <div className="console-header">
-            <span />
-            <span />
-            <span />
-            <strong>GanDen.signal</strong>
-          </div>
-          <div className="signal-stage">
-            <div className="signal-orbit orbit-one" />
-            <div className="signal-orbit orbit-two" />
-            <AvatarPortrait className="avatar-placeholder" />
-          </div>
-          <div className="hero-meta">
-            <p>{profile.identity}</p>
-            <div>
-              <Radio size={16} />
-              <span>Open for AI experiments</span>
+        <div className="hero-stage" aria-label="GanDen AI 展示台">
+          <div className="hero-stage-connector" aria-hidden="true" />
+          {sidePanels.map((panel, index) => {
+            const Icon = heroShowcaseIcons[index];
+
+            return (
+              <article className={`hero-stage-card hero-stage-card-side hero-stage-card-${index === 0 ? "left" : "right"}`} key={panel.title}>
+                <div className="hero-card-topline">
+                  <span>{panel.eyebrow}</span>
+                  <Icon size={18} />
+                </div>
+                <h2>{panel.title}</h2>
+                <p>{panel.description}</p>
+                <div className="hero-card-signal">{panel.signal}</div>
+                <div className="hero-card-tags">
+                  {panel.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
+
+          <article className="hero-stage-card hero-stage-card-main">
+            <div className="console-header">
+              <span />
+              <span />
+              <span />
+              <strong>GanDen.signal</strong>
             </div>
-          </div>
-        </BorderGlow>
+            <div className="signal-stage">
+              <div className="signal-orbit orbit-one" />
+              <div className="signal-orbit orbit-two" />
+              <AvatarPortrait className="avatar-placeholder" />
+            </div>
+            <div className="hero-meta">
+              <p>{profile.identity}</p>
+              <div>
+                <Radio size={16} />
+                <span>Open for AI experiments</span>
+              </div>
+            </div>
+            <div className="hero-card-main-footer">
+              <span>{mainPanel.eyebrow}</span>
+              <strong>{mainPanel.title}</strong>
+              <p>{mainPanel.signal}</p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   );
