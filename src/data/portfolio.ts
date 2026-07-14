@@ -213,9 +213,10 @@ export const capabilities: Capability[] = [
 ];
 
 export const socialLinks: SocialLink[] = [
-  { label: "Email", value: "hello@example.com", href: "mailto:hello@example.com" },
-  { label: "抖音", value: "账号占位", href: "#connect" },
   { label: "GitHub", value: "github.com/placeholder", href: "#connect" },
+  { label: "YouTube", value: "频道占位", href: "#connect" },
+  { label: "抖音", value: "账号占位", href: "#connect" },
+  { label: "哔哩哔哩", value: "主页占位", href: "#connect" },
+  { label: "邮箱", value: "hello@example.com", href: "mailto:hello@example.com" },
   { label: "小红书", value: "账号占位", href: "#connect" },
-  { label: "TikTok", value: "@placeholder", href: "#connect" },
 ];

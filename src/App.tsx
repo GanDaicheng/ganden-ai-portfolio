@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, type CSSProperties, useEffect, useRef, useState } from "react";
 import {
   ArrowDownRight,
   Bot,
@@ -14,6 +14,7 @@ import {
   Sparkles,
   TerminalSquare,
   WandSparkles,
+  Youtube,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -32,6 +33,13 @@ import {
 } from "./data/portfolio";
 import DotGrid from "./components/DotGrid";
 import BorderGlow from "./components/BorderGlow";
+import LightRays from "./components/LightRays";
+import LogoLoop from "./components/LogoLoop";
+import TargetCursor from "./components/TargetCursor";
+import CircularGallery from "./components/CircularGallery";
+
+const LaserFlow = lazy(() => import("./components/LaserFlow"));
+const LineWaves = lazy(() => import("./components/LineWaves"));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,6 +102,7 @@ function App() {
       gsap.set(".hero-dot-grid", { autoAlpha: 0, scale: 1.05 });
       gsap.set(".hero-blueprint", { autoAlpha: 0, scale: 1.04 });
       gsap.set(".hero-spotlight", { autoAlpha: 0, xPercent: -50, scaleY: 0.72, transformOrigin: "50% 0%" });
+      gsap.set(".hero-light-rays", { autoAlpha: 0, scale: 1.04 });
       gsap.set(".hero-crosshair", { autoAlpha: 0, scale: 0.6 });
       gsap.set(".site-nav", { autoAlpha: 0, y: -30 });
 
@@ -110,7 +119,8 @@ function App() {
         .to(".site-nav", { autoAlpha: 1, y: 0, duration: 1.0 }, 1.04)
         .to(".hero-background img", { autoAlpha: 0.28, x: 0, scale: 1, duration: 1.8, ease: "power3.out" }, 0.86)
         .to(".hero-blueprint", { autoAlpha: 1, scale: 1, duration: 1.7, ease: "sine.out" }, 0.9)
-        .to(".hero-spotlight", { autoAlpha: 1, scaleY: 1, duration: 1.65, ease: "power3.out" }, 1.0)
+        .to(".hero-spotlight", { autoAlpha: 0.05, scaleY: 1, duration: 1.65, ease: "power3.out" }, 1.0)
+        .to(".hero-light-rays", { autoAlpha: 1, scale: 1, duration: 1.7, ease: "sine.out" }, 1.04)
         .to(".hero-dot-grid", { autoAlpha: 0.56, scale: 1, duration: 1.45, ease: "sine.out" }, 1.1)
         .to(".hero-crosshair", { autoAlpha: 1, scale: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" }, 1.18)
         .to(".hero-kicker", { autoAlpha: 1, y: 0, duration: 0.82, ease: "power3.out" }, 1.3)
@@ -145,7 +155,7 @@ function App() {
         const title = section.querySelector(".section-heading h2, .connect-heading h2");
         const copy = section.querySelector(".section-heading > p:last-child, .connect-heading > p:last-child");
         const cards = section.querySelectorAll(
-          ".profile-panel, .timeline-item, .stat-card, .work-card, .capability-card, .social-card",
+          ".profile-panel, .timeline-item, .stat-card, .work-card, .capability-card, .social-card, .connect-logo-loop-shell",
         );
         const images = section.querySelectorAll(".profile-avatar img, .avatar-placeholder img");
 
@@ -160,8 +170,8 @@ function App() {
         if (ghost) {
           tl.fromTo(
             ghost,
-            { autoAlpha: 0, xPercent: -18, scaleX: 0.72, y: 46, transformOrigin: "0% 50%" },
-            { autoAlpha: 1, xPercent: 0, scaleX: 1, y: 0, duration: 1.2, ease: "power4.out" },
+            { autoAlpha: 0, xPercent: -50, scaleX: 0.72, y: 46, transformOrigin: "50% 50%" },
+            { autoAlpha: 1, xPercent: -50, scaleX: 1, y: 0, duration: 1.2, ease: "power4.out" },
             0,
           );
         }
@@ -337,6 +347,21 @@ function Landing() {
         </picture>
         <div className="hero-blueprint" />
         <div className="hero-spotlight" />
+        <LightRays
+          className="hero-light-rays"
+          raysOrigin="top-center"
+          raysColor="#22D3EE"
+          raysSpeed={0.22}
+          lightSpread={1.48}
+          rayLength={2.15}
+          pulsating
+          fadeDistance={1.35}
+          saturation={0.86}
+          followMouse
+          mouseInfluence={0.05}
+          noiseAmount={0.055}
+          distortion={0.08}
+        />
         <div className="hero-crosshair hero-crosshair-one" />
         <div className="hero-crosshair hero-crosshair-two" />
         <DotGrid
@@ -453,6 +478,25 @@ function Landing() {
 function Journey() {
   return (
     <section className="section journey-section reveal" id="journey">
+      <div className="journey-waves-layer" aria-hidden="true">
+        <Suspense fallback={null}>
+          <LineWaves
+            speed={0.18}
+            innerLineCount={24}
+            outerLineCount={30}
+            warpIntensity={0.42}
+            rotation={-18}
+            edgeFadeWidth={0.18}
+            colorCycleSpeed={0.28}
+            brightness={0.055}
+            color1="#8B5CF6"
+            color2="#6366F1"
+            color3="#22D3EE"
+            enableMouseInteraction
+            mouseInfluence={0.55}
+          />
+        </Suspense>
+      </div>
       <div className="section-inner">
         <SectionHeading
           kicker="My Journey"
@@ -556,17 +600,38 @@ function AvatarPortrait({ className, compact = false }: { className: string; com
 function FeaturedWorks() {
   return (
     <section className="section works-section reveal" id="works">
+      <div className="works-laser-layer" aria-hidden="true">
+        <Suspense fallback={null}>
+          <LaserFlow
+            horizontalBeamOffset={0}
+            verticalBeamOffset={-0.08}
+            horizontalSizing={0.72}
+            verticalSizing={1.38}
+            color="#8B5CF6"
+            fogIntensity={0.28}
+            fogScale={0.38}
+            wispDensity={0.72}
+            wispSpeed={8.5}
+            wispIntensity={2.4}
+            flowSpeed={0.2}
+            flowStrength={0.16}
+            mouseTiltStrength={0.045}
+            falloffStart={1.45}
+            dpr={1.2}
+          />
+        </Suspense>
+      </div>
       <div className="section-inner">
         <SectionHeading
           kicker="Featured Works"
           title="作品实验室"
           copy="每张卡片都是一个未来可替换的作品容器，覆盖AI项目、网页案例、自动化脚本和AI短视频。"
         />
-        <div className="works-grid">
+        <CircularGallery className="works-gallery" bend={0} scrollEase={0.075}>
           {works.map((work, index) => (
             <WorkCard key={work.title} work={work} index={index} />
           ))}
-        </div>
+        </CircularGallery>
       </div>
     </section>
   );
@@ -595,6 +660,16 @@ function WorkCard({ work, index }: { work: Work; index: number }) {
 function CoreCapabilities() {
   return (
     <section className="section capabilities-section reveal" id="capabilities">
+      <TargetCursor
+        targetSelector=".capability-card.cursor-target"
+        activeAreaSelector="#capabilities"
+        spinDuration={3.4}
+        hoverDuration={0.32}
+        hideDefaultCursor={false}
+        parallaxOn
+        cursorColor="rgba(216, 236, 248, 0.86)"
+        cursorColorOnTarget="#22D3EE"
+      />
       <div className="section-inner capability-layout">
         <SectionHeading
           kicker="Core Capabilities"
@@ -615,7 +690,7 @@ function CapabilityCard({ capability, index }: { capability: Capability; index: 
   const Icon = capabilityIcons[index % capabilityIcons.length];
 
   return (
-    <article className="capability-card">
+    <article className="capability-card cursor-target">
       <div className="capability-icon">
         <Icon size={22} />
       </div>
@@ -631,6 +706,24 @@ function CapabilityCard({ capability, index }: { capability: Capability; index: 
 }
 
 function Connect() {
+  const [activeContact, setActiveContact] = useState<SocialLink | null>(null);
+  const [copiedContact, setCopiedContact] = useState<string | null>(null);
+  const fallbackContact = socialLinks.find((link) => link.label === "邮箱") ?? socialLinks[0];
+
+  const contactLogos = socialLinks.map((link) => ({
+    node: (
+      <ContactLogoPill link={link} onActivate={() => setActiveContact(link)} />
+    ),
+    title: link.label,
+  }));
+
+  const handleCopyContact = async (link: SocialLink) => {
+    const value = getContactValue(link);
+    await navigator.clipboard.writeText(value);
+    setCopiedContact(link.label);
+    window.setTimeout(() => setCopiedContact(null), 1400);
+  };
+
   return (
     <section className="section connect-section reveal" id="connect">
       <div className="section-inner connect-layout">
@@ -650,29 +743,93 @@ function Connect() {
             />
           </h2>
           <p>
-            这里将汇总邮箱、抖音、GitHub、小红书和TikTok。真实账号准备好后，只需要替换数据文件。
+            这里将汇总 GitHub、YouTube、抖音、哔哩哔哩、邮箱和小红书。真实账号准备好后，只需要替换数据文件。
           </p>
         </div>
-        <div className="connect-grid">
-          {socialLinks.map((link) => (
-            <SocialCard key={link.label} link={link} />
-          ))}
+        <div className="connect-stack" onMouseLeave={() => setActiveContact(null)}>
+          <div className="connect-logo-loop-shell">
+            <LogoLoop
+              logos={contactLogos}
+              speed={38}
+              direction="left"
+              logoHeight={58}
+              gap={18}
+              hoverSpeed={0}
+              fadeOut
+              fadeOutColor="#171722"
+              ariaLabel="GanDen contact channels"
+            />
+          </div>
+          <ContactHoverCard
+            link={activeContact ?? fallbackContact}
+            copied={Boolean(activeContact && copiedContact === activeContact.label)}
+            idle={!activeContact}
+            onCopy={() => {
+              if (activeContact) void handleCopyContact(activeContact);
+            }}
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function SocialCard({ link }: { link: SocialLink }) {
-  const Icon = link.label === "Email" ? Mail : link.label === "GitHub" ? Github : MessageCircle;
-
+function ContactLogoPill({ link, onActivate }: { link: SocialLink; onActivate: () => void }) {
   return (
-    <a className="social-card" href={link.href}>
-      <Icon size={20} />
+    <button
+      className="connect-logo-pill"
+      type="button"
+      onMouseEnter={onActivate}
+      onFocus={onActivate}
+      aria-label={`查看 ${link.label} 联系方式`}
+    >
+      <SocialIcon label={link.label} size={26} />
       <span>{link.label}</span>
-      <strong>{link.value}</strong>
-    </a>
+    </button>
   );
+}
+
+function ContactHoverCard({
+  link,
+  copied,
+  idle,
+  onCopy,
+}: {
+  link: SocialLink;
+  copied: boolean;
+  idle: boolean;
+  onCopy: () => void;
+}) {
+  return (
+    <div className={`contact-hover-card${idle ? " contact-hover-card--idle" : ""}`} onMouseEnter={() => undefined}>
+      <div className="contact-hover-card__icon">
+        <SocialIcon label={link.label} size={24} />
+      </div>
+      <div className="contact-hover-card__body">
+        <span>{idle ? "选择一个联系方式" : link.label}</span>
+        <strong>{idle ? "鼠标移到上方图标，即可查看链接并复制" : getContactValue(link)}</strong>
+      </div>
+      <button className="contact-copy-button" type="button" onClick={onCopy} disabled={idle}>
+        {copied ? "已复制" : "复制"}
+      </button>
+    </div>
+  );
+}
+
+function getContactValue(link: SocialLink) {
+  if (link.href.startsWith("mailto:")) return link.href.replace("mailto:", "");
+  if (link.href !== "#connect") return link.href;
+  return link.value;
+}
+
+function SocialIcon({ label, size = 22 }: { label: string; size?: number }) {
+  if (label === "GitHub") return <Github size={size} />;
+  if (label === "YouTube") return <Youtube size={size} />;
+  if (label === "邮箱") return <Mail size={size} />;
+  if (label === "哔哩哔哩") return <span className="social-glyph social-glyph-bili">B</span>;
+  if (label === "小红书") return <span className="social-glyph social-glyph-red">RED</span>;
+  if (label === "抖音") return <span className="social-glyph social-glyph-douyin">抖</span>;
+  return <MessageCircle size={size} />;
 }
 
 function VariableText({
